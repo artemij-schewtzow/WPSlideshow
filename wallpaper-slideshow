@@ -1,0 +1,18 @@
+#!/bin/sh
+
+WALLPAPER_DIR="$HOME/WPSlideshow/wallpapers"
+INTERVAL=30  
+
+while true; do
+    find "$WALLPAPER_DIR" -type f \
+        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) |
+        shuf |
+        while read -r image; do
+            swaybg -i "$image" -m fill &
+            new_pid=$!
+
+            sleep "$INTERVAL"
+
+            kill "$new_pid" 2>/dev/null
+        done
+done
